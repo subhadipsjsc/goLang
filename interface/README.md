@@ -126,3 +126,168 @@ here we specify an interface **item** and i is an instance of that interface.whe
 here in this implement, no other type implements the interface, so the value is nil, and the dynamic type is also nil. when we print the type of an interface, it returns the dynamic type and its static type remains hidden.
 
 
+<br>
+<br>
+
+```
+type Box struct {
+    L, W, H float64
+}
+func (b Box) Area() float64 {
+    return  2*( b.H * b.W) + 2*(b.H * b.L) + 2*(b.W * b.L)
+}
+func (b Box) Volume() float64 {
+    return b.L * b.W  * b.H 
+}
+
+
+type item interface {
+    Area() float64
+    Volume() float64
+}
+
+func main() {
+    var i item
+    i = Box {2,3,4}
+    fmt.Printf("value of i :  %v and type of i: %T", i ,i)
+	fmt.Println("")
+	b1 := Box{2,3,4}
+    fmt.Printf("value of b1 :  %v and type of b1: %T", b1 ,b1)
+	fmt.Println("")
+	fmt.Println("is 'i' and 'b1' are of the same value :", i==b1)
+}
+```
+
+here Box struct has 2 methods : **Area()** & **Volume()** . and the interface **item** has method signatures of :  **Area()** & **Volume()**. so the **Box** struct type implements the **item** interface.
+
+<br>
+
+var **i** is an instance of interface **item** and as struct **Box** implements **item**, so we can directly assign **i** to an instance of **Box**.
+
+<br>
+
+>**item** implements **Box**
+>
+>**instance of item** Assign to  **instance of Box**
+>
+>**i** = **Box{2,3,4}**  
+>
+> also type of **i** is **main.Box** 
+
+<br>
+
+another variable **b1** is a direct instance of **Box{2,3,4}**
+```
+    fmt.Println("is 'i' and 'b1' are of the same value :", i==b1)
+```
+Now when we do a comparison between **i** and **b1** ( **i** instance of an interface  & **b1** instance of a struct ), we see their values are the same.
+
+<br>
+
+
+
+
+### dynamic type and value: why it is called dynamic
+
+
+```
+type Box struct {
+    L, W, H float64
+}
+func (b Box) Area() float64 {
+    return  2*( b.H * b.W) + 2*(b.H * b.L) + 2*(b.W * b.L)
+}
+func (b Box) Volume() float64 {
+    return b.L * b.W  * b.H 
+}
+
+
+type Ball struct {
+    R float64
+}
+func (b Ball) Area() float64 {
+    return 4 * 3.14 * b.R * b.R
+}
+func (b Ball) Volume() float64 {
+    return (4 / 3) * 3.14 * b.R * b.R * b.R
+}
+
+type item interface {
+    Area() float64
+    Volume() float64
+}
+
+func main() {
+    var b1 = Box{5.0, 10.0, 8.0}
+    fmt.Printf("Type = %T, Area = %v , Volume = %v \n", b1, b1.Area(), b1.Volume())
+
+    var b2 = Ball{5.0}
+    fmt.Printf("Type = %T, Area = %v , Volume = %v \n", b2, b2.Area(), b2.Volume())
+
+    var i item
+    fmt.Printf("value of i :  %v and type of i: %T   \n", i ,i)
+    
+    i = Box {2,3,4}
+    fmt.Printf("value of i :  %v and type of i: %T   \n", i ,i)
+    fmt.Println("is 'i' and 'b1' are of the same value :", i==b1)
+	
+    i = Ball{5.0}
+ 	fmt.Printf("value of i :  %v and type of i: %T   \n", i ,i)
+    fmt.Println("is 'i' and 'b2' are of the same value :", i==b2)
+}
+```
+
+<br>
+
+in this example, the variable **i** instance of the interface **item**. item has 2 method signature: Area() & Volume(). now both **Box** and **Ball** struct have methods Area() & Volume(). so both **Box** and **Ball** struct implements interface **item**
+
+<br>
+
+the variable **i** is assigned to the **Box** struct value. so **i** become of => Type  **main.Box** ,( value of  Area = 52 , Volume = 24 ) 
+then the variable **i** is assigned to the **Ball** struct value. so **i** become of => Type **main.Ball** ,( value of  Area = 314 , Volume = 392.5 )
+
+In Go lang variables are static type, means variable types are explicitly declared and we can not their type  ( from int to float, or string to int, etc ). 
+
+In this example, we can see, the type of variable **i** changes. first, the type of **i** was  **nil**, then it becomes the type of **main.Box**, then it becomes the type of **main.Ball**. we can say that an interface dynamically holds the reference to the underlying type-instance ( **value** and  **type** of that type-instance).
+
+this phenomenon can only happen with an **instance of an interface**. the dynamic type of an interface means that it can hold a reference to different types (e.g. string, int, ...) and that it can change at runtime, whereas a static type is checked at compile-time and cannot change.
+
+
+<br>
+<br>
+
+
+
+
+
+
+
+
+## Empty Interface
+
+
+```
+type CustomString string
+
+type Box struct {
+    L, W, H float64
+}
+
+func Details(i interface{}) {
+    fmt.Printf("given element Type : %T and Value: %v \n", i, i)
+}
+
+func main() {
+    c := CustomString("some string")
+    b := Box{2,3,4}
+    Details(c)
+    Details(b)
+}
+```
+
+<br>
+
+we make a custom string type **CustomString** and a struct **Box**. **c** is an instance of **CustomString** and **b** is an instance of **Box**.
+
+now the function **Details**  will take an **empty interface** . as an **empty interface** has **no methods** so it can be implemented by **any type**, so variable **b** and **c** is valid input for the function **Details**
+
