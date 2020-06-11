@@ -8,7 +8,7 @@ Using Interfaces we can represent single value in multiple types.
 
 Structs in GO Lang implements object type behavior (objects in Javascript) and Struct methods can be closely related to method-function of an object (in Js world)
 
-##### Object in Javascript
+#### Object in Javascript
 
 What things you need to install the software and how to install them
 ```
@@ -22,7 +22,7 @@ var car1 = {
 console.log( car1.fullDetails() )
 ```
 
-##### Struct in Go
+#### Struct in Go
 
 What things you need to install the software and how to install them
 ```
@@ -48,8 +48,10 @@ func main() {
 A type may have single or multiple methods. what those methods will do( means what operations will take place inside that method function) is defined by the type.
 
 
-**An interface is just a collection method signatures**  ( method name and return type ) .so an Interface only cares about method name and return type. the interface does not care what those methods will do ( what operations will take place inside that method function ). **The interface contains only the signatures of the methods, but not their implementation** (means interface never declares the behavior but it defines the behavior of the object )
+**An interface is just a collection method signatures**  ( method name and return type ). so an Interface only cares about method name and return type. the interface does not care what those methods will do ( what operations will take place inside that method function ). **The interface contains only the signatures of the methods, but not their implementation** (means interface never declares the behavior but it defines the behavior of the object )
 
+<br>
+<br>
 
 > When all the methods of a TYPE are available inside an INTERFACE, it is said the TYPE implements that INTERFACE
 
@@ -79,7 +81,9 @@ In this example ***SalaryCalculator*** is an interface. it has a method ***Total
 
 
 
-
+<br>
+<br>
+<br>
 
 
 ## Interface : Static and Dynamic type
@@ -98,17 +102,23 @@ func main() {
 
 here we specify an interface **item** and i is an instance of that interface.when we print value and type of variable **i**, the result is : value of i : < nil > and type of i : < nil >
 
+<br>
+<br>
 
-> #### Dynamic Value
+> #### Dynamic Value :
 >
 > let's understand this: the value is: nil because an interface does not have ***static value***,  rather it points to a ***dynamic value***. the dynamic value is the value of another type (like a struct variable ) that implements the interface.
 
-> #### Dynamic and Static Type
+
+<br>
+<br>
+
+> #### Dynamic and Static Type :
 >
 > An Interface variable has 2 types.
 >
-> - static type: the interface itself (in this case **item** )
-> - Dynamic type / Concrete type:  type of the variable (like a variable of a struct type ) which implements the interface
+> - **static type**: the interface itself (in this case **item** )
+> - **Dynamic type / Concrete type**:  type of the variable (like a variable of a struct type ) which implements the interface
 
 
 here in this implement, no other type implements the interface, so the value is nil, and the dynamic type is also nil. when we print the type of an interface, it returns the dynamic type and its static type remains hidden.
