@@ -51,10 +51,10 @@ A type may have single or multiple methods. what those methods will do( means wh
 **An interface is just a collection method signatures**  ( method name and return type ). so an Interface only cares about method name and return type. the interface does not care what those methods will do ( what operations will take place inside that method function ). **The interface contains only the signatures of the methods, but not their implementation** (means interface never declares the behavior but it defines the behavior of the object )
 
 <br>
-<br>
 
 > When all the methods of a TYPE are available inside an INTERFACE, it is said the TYPE implements that INTERFACE
 
+<br>
 
 
 
@@ -111,7 +111,6 @@ here we specify an interface **item** and i is an instance of that interface.whe
 
 
 <br>
-<br>
 
 > #### Dynamic and Static Type :
 >
@@ -119,6 +118,9 @@ here we specify an interface **item** and i is an instance of that interface.whe
 >
 > - **static type**: the interface itself (in this case **item** )
 > - **Dynamic type / Concrete type**:  type of the variable (like a variable of a struct type ) which implements the interface
+
+<br>
+
 
 
 here in this implement, no other type implements the interface, so the value is nil, and the dynamic type is also nil. when we print the type of an interface, it returns the dynamic type and its static type remains hidden.
