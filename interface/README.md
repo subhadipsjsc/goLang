@@ -294,7 +294,7 @@ now the function **Details**  will take an **empty interface** . as an **empty i
 
 A type can implement any no of Interfaces
 
-``
+```
 type Box struct {
     L, W, H float64
 }
@@ -325,7 +325,7 @@ func main() {
     fmt.Printf("v => Type : %T and Value: %v \n", v, v)
 
 }
-``
+```
 
 **b** is an instance of struct"Box" and it has 2 methods **Area()** and **Volume()** . now we have 2 interfaces, interface **AreaCalculator** has only method signature **Area()** and interface **VolumeCalculator** has only method signature **Volume()**
 
@@ -347,9 +347,9 @@ v => Type : main.Box and Value: {2 3 4}
 now we can see that both **a** and **v** has the same type ( main.Box ) and value( {2 3 4} ) . but these 2 variables are not same .
 
 we can put this code :
-``
+```
 fmt.Println("is 'a' and 'v' are of the same value :", a==v)
-``
+```
 result will be : 
 invalid operation: a == v (mismatched types AreaCalculator and VolumeCalculator)
 
@@ -359,7 +359,7 @@ this is because these 2 variables **a** and **s** has the same dynamic Type and 
 ## Extract the dynamic value
 
 
-``
+```
 type Box struct {
     L, W, H float64
 }
@@ -385,7 +385,7 @@ func main() {
     fmt.Println("Area of a  is :" , a.Volume())
     fmt.Println("Volume of v is :" , v.Area())
 }
-``
+```
 but if we try to use: a.Volume()  or  v.Area() it will show error :
 
 > **The result :**
@@ -399,7 +399,7 @@ because **a** is an instance of **AreaCalculator** which has only 1 method signa
 
 to make this work we have to extract the **Dynamic Value** of the struct implementing these Interface ( **Box** struct ).
 
-``
+```
 type Box struct {
     L, W, H float64
 }
@@ -433,7 +433,7 @@ func main() {
     fmt.Println("Volume of v is :" , v1.Area())
     fmt.Println("is 'a1' and 'v1' are of the same value :", a1==v1)
 }
-``
+```
 
 we extract the struct **Box** from **a** by **a.(Box)** same for **v** by **v.(Box)**
 the format is i. (Type) ... but **Type** must implement the interface **i** or this will be an error.
@@ -465,7 +465,7 @@ for type assertion, we need an **interface** and a **type** which implements tha
 
 for v.(T)  :  If T  is an interface type then such assertion checks if dynamic type of v implements interface T:
 
-``
+```
 type I interface {
         walk() string
 }
@@ -492,7 +492,7 @@ func main() {
     fmt.Printf("Details => Type : %T and Value: %v \n", i.(J) ,i.(J))
     fmt.Printf("Details => Type : %T and Value: %v \n", i.(K) ,i.(K))
 }
-``
+```
 
 as **S{"dog"}** has 2 methods: **walk** and **quack**. now interface **I** have **walk** method so **S** can implement **I**, same interface  **J**  have  **quack** method, so **S** can also implement **J** . but interface **K** have only **bark**  method so **S** can not implement **K**
 
@@ -509,7 +509,7 @@ as **S{"dog"}** has 2 methods: **walk** and **quack**. now interface **I** have 
 
 for **v.(T)**  :  If **T**  is not an interface type then such assertion checks if dynamic type of **v** is identical to **T**
 
-``
+```
 type I interface {
     walk() string
 }
@@ -533,7 +533,7 @@ func main() {
     fmt.Printf("Details => Type : %T and Value: %v \n", i.(A), i.(A))
     fmt.Printf("Details => Type : %T and Value: %v \n", i.(B), i.(B))
 }
-``
+```
 
 here **I** interface has method signature **walk()**. both struct **A** and **B** have **walk()** method, so both implements **I** interface
 
@@ -544,7 +544,7 @@ here **I** interface has method signature **walk()**. both struct **A** and **B*
 
 ### some more example
 
-``
+```
 func printValue(i interface{}) {
     fmt.Printf("The value of v is: %v", i.(int))
 }
@@ -553,14 +553,14 @@ func main() {
     v := 10
     printValue(v)
 }
-``
+```
 
 this example will work fine. Because **v** is of type **int**, when **printValue** function take the argument  **i interface{}** => then **i** got dynamic value of **int** from **v** . so **i(int)** will work fine.
 
 
 <br>
 
-``
+```
 func printValue(i interface{}) {
     fmt.Printf("The value of v is: %v",  v.(string))
 }
@@ -569,13 +569,13 @@ func main() {
     v := 10
     printValue(v)
 }
-``
+```
 
 this example will not work and give error . Because **v** is of type **int**, when **printValue** function take the argument  **i interface{}** => then **i** got dynamic value of **int** from **v** . so **i(string)** will not work as i have dynamic value of **int** not **string**.
 
 <br>
 
-``
+```
 func main() {
     var greeting interface{} = "5"
     greetingStr := greeting.(string)
@@ -593,7 +593,7 @@ func main() {
     greetingInt4 := greeting4.(string)
     fmt.Printf("The value is: %v and type is : %T \n",  greetingInt4 , greetingInt4)
 }
-``
+```
 
 > first 2 blocks will run perfectly  because :
 >	"v.(T)" is matching the criteria: dynamic type of v == T
