@@ -607,4 +607,167 @@ func main() {
 
 ## Interface : pointer vs value receiver
 
+some pointer and reference example :  
+<br>
+
+```
+func main() {
+    var some_variable string = "shark"
+    var address= &some_variable 
+    var address_value  = *address
+    
+    fmt.Println("value of variable :",some_variable )
+   	fmt.Println("variable memory address :",address)
+    fmt.Println("value stored in memory address :",address_value  )
+}
+```
+
+
+<br>
+
+
+### referencing and dereferencing
+
+```
+type human struct {
+    name string
+    age int
+}
+
+func (h human) details(){
+    fmt.Println("name is :",h.name )
+}
+
+func (h human) addAge (year int) int{
+    return h.age+year
+}
+
+func (h *human) deductAge (year int) int{
+    return h.age-year
+}
+
+func main() {
+    human1 := human {"bob",25 }
+    human1.details()
+   	fmt.Println("Age added 10 years :",human1.addAge(10))
+    fmt.Println("Age deduct 5 years :",human1.deductAge (5))
+    
+    human2 := &human1
+    human2.details()
+    fmt.Println("Age added 10 years :",human2.addAge(10))
+    fmt.Println("Age deduct 5 years :",human2.deductAge (5))
+ }
+```
+<br>
+
+In this example **human2** = address of **human1** . so  **human2** is just a memory location. but when we try to use **human2.details()** , goLang understands that the memory address has no method, but the memory which points to the struct has a method. so it dereferencing the code. here 
+Actual meaning :
+**human2.details()** =>  **(*human2).details()**
+**human2.addAge(5)** =>    **(*human2).addAge(5)**
+these deferencing is done by go compiler
+
+now  **deductAge()** actually works on **-*human** means pointer of **human** struct .
+but when we put **human1.deductAge(5)**, what the Go-compiler did was, it referencing the **human1** to **(&human1)** so that the method works.
+Actual meaning :
+**human1.deductAge(5)** => **(&human1).deductAge(5)**
+
+<br>
+
+### pointer and regular type in interface
+
+if all the methods of an interface is implemented by a non-pointer Type  **T** , both **-T** and **-*T** will implement that Interface.
+if we implement any of the methods of an Interface on some pointer type  **T**, then only **-*T** implements the interface not type **T**
+
+<br>
+
+```
+type human struct {
+    name string
+}
+
+func (h human) eat() {
+    fmt.Println("this person can eat:", h.name)
+}
+
+func (h human) talk() {
+    fmt.Println("this person can talk:", h.name)
+}
+
+func (h human) walk() {
+    fmt.Println("this person can walk:", h.name)
+}
+
+
+type I interface {
+    eat() 
+    talk() 
+    walk() 
+}
+
+
+func main() {
+    var i1 I
+ 	i1= human {"bob"}
+	i1.talk()
+
+	var i2 I
+   	i2= &human {"jek"}
+   	i2.talk()
+}
+```
+
+<br>
+
+here all the methods ( eat, talk, walk )of the interface **I**  is implemented by a non-pointer Type  **human** struct, so both **human** and **&human** will implement that Interface.
+
+the instance of **I** :
+i1   => assign to an instance of **human**
+i2  => assign to an instance of the address of **human** (**&human**)
+
+now if we change any of the methods or all of the methods ( eat, talk, walk ) to take pointer type **-*human** , then only **i2** will work , not **i1**. 
+
+
+
+<br>
+
+```
+type human struct {
+    name string
+}
+
+func (h human) eat() {
+    fmt.Println("this person can eat:", h.name)
+}
+
+func (h human) talk() {
+    fmt.Println("this person can talk:", h.name)
+}
+
+func (h *human) walk() {
+    fmt.Println("this person can walk:", h.name)
+}
+
+
+type I interface {
+    eat() 
+    talk() 
+    walk() 
+}
+
+
+func main() {
+        var i1 I
+      i1= human {"bob"}
+    i1.talk()
+
+    var i2 I
+       i2= &human {"jek"}
+        i2.talk()
+}
+```
+<br>
+
+because one of the methods of interface **I** =>   **walk()** is implemented by ***human** means pointer of the **human** type. so interface **I** is only implemented by **&human**, not by **human**
+
+ 
 
